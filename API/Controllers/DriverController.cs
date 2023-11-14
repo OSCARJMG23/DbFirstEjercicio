@@ -42,6 +42,15 @@ namespace API.Controllers
             return _mapper.Map<DriverDto>(driver);
         }
         
+        [HttpGet("addteam")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> AddTeam(AddTeamDto model)
+        {
+            var driver = await _unitOfWork.Drivers.;
+            return _mapper.Map<DriverDto>(driver);
+        }
+        
         
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]

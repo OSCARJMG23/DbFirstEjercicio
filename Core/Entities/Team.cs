@@ -9,6 +9,6 @@ public partial class Team
 
     public string Name { get; set; } = null!;
 
-    public virtual ICollection<Driver> Drivers { get; set; } = new List<Driver>();
+    public virtual ICollection<Driver> Drivers { get; set; } = new HashSet<Driver>();
     public ICollection<team_drivers> Team_Drivers { get; set; }
 }

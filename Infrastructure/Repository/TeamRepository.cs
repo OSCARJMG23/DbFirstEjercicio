@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Core.Entities;
 using Core.Interfaces;
 using Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repository
 {
@@ -15,6 +16,12 @@ namespace Infrastructure.Repository
         public TeamRepository(FormulaRaceContext context) : base(context)
         {
             _context = context;
+        }
+        public async Task<Team> GetTeamAsync(string teamName)
+        {
+            return await _context.Teams
+                    .FirstOrDefaultAsync(e=> e.Name.ToLower() == teamName.ToLower());
+                    
         }
     }
 }
