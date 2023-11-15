@@ -42,7 +42,7 @@ namespace API.Controllers
             return _mapper.Map<DriverDto>(driver);
         }
         
-        [HttpGet("addteam")]
+        [HttpPost("addteam")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> AddTeam(AddTeamDto model)
@@ -60,7 +60,7 @@ namespace API.Controllers
                 {
                     var driverHashTeam = driver.Teams.Any(e=>e.Id == teams.Id);
 
-                    if (driverHashTeam == false)
+                    if (!driverHashTeam)
                     {
                         driver.Teams.Add(teams);
                         _unitOfWork.Drivers.Update(driver);
@@ -68,7 +68,9 @@ namespace API.Controllers
 
                         return Ok($"Team {model.Team} added to driver {model.DriverName} successfully");
                     }
-                    return Ok($"Driver {model.DriverName} already has Team {model.Team}");
+                    else{
+                        return Ok($"Driver {model.DriverName} already has Team {model.Team}");
+                    }
                 }
             return BadRequest($"Team {model.Team} was not found");
            /* return null; */
