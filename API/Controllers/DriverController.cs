@@ -47,8 +47,31 @@ namespace API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> AddTeam(AddTeamDto model)
         {
-            var driver = await _unitOfWork.Drivers.;
-            return _mapper.Map<DriverDto>(driver);
+            var driver = await _unitOfWork.Drivers
+                        .GetDriverNameAsync(model.DriverName);
+            
+            if (driver == null)
+            {
+                return BadRequest($"Driver {model.DriverName} does not exists");
+            }
+            var teams = await _unitOfWork.Teams
+                        .GetTeamAsync(model.Team);
+            if (teams != null)
+                {
+                    var driverHashTeam = driver.Teams.Any(e=>e.Id == teams.Id);
+
+                    if (driverHashTeam == false)
+                    {
+                        driver.Teams.Add(teams);
+                        _unitOfWork.Drivers.Update(driver);
+                        await _unitOfWork.SaveAsync();
+
+                        return Ok($"Team {model.Team} added to driver {model.DriverName} successfully");
+                    }
+                    return Ok($"Driver {model.DriverName} already has Team {model.Team}");
+                }
+            return BadRequest($"Team {model.Team} was not found");
+           /* return null; */
         }
         
         

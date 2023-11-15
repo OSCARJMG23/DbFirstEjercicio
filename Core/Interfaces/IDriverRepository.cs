@@ -8,6 +8,6 @@ namespace Core.Interfaces
 {
     public interface IDriverRepository : IGenericRepository<Driver>
     {
-        
+        Task<Driver> GetDriverNameAsync(string drivername);
     }
 }

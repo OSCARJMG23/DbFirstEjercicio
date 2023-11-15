@@ -8,6 +8,6 @@ namespace Core.Interfaces
 {
     public interface ITeamRepository : IGenericRepository<Team>
     {
-        
+        Task<Team> GetTeamAsync(string teamName);
     }
 }
